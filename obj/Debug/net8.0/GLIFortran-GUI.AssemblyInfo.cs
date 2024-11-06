@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GLIFortran-GUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c512f29bd89acde9b53d9f1454b8af52a5a04b6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7737bf9e0021e85944c66aa0441c60c24e37c46d")]
 [assembly: System.Reflection.AssemblyProductAttribute("GLIFortran-GUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GLIFortran-GUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

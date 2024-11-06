@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using Gtk;
 using System.IO;
 
 public class MainWindow : Window
 {
+    [DllImport("liblecdat.so", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void LECDAT(
+        out int N, out int TMOD, out int TEXC, out float B, out float A, out float W,
+        out float Z, out float FI, out float S, out float CT, out float HI, out float EXC,
+        out int FREX, out int FREY, out float DTX, out int NAX, out int NAY,
+        [Out] float[] ACX, [Out] float[] ACY);
+
     private TextView textViewContent;
 
     public MainWindow() : base("Formulario de Datos Sísmicos")
@@ -63,10 +71,7 @@ public class MainWindow : Window
 
         // Botón de envío
         Button submitButton = new Button("Enviar");
-        submitButton.Clicked += (sender, e) =>
-        {
-            Console.WriteLine("Datos enviados");
-        };
+        submitButton.Clicked += OnSubmitButtonClicked;
         vboxMain.PackStart(submitButton, false, false, 10);
 
         Add(vboxMain);
@@ -80,6 +85,7 @@ public class MainWindow : Window
         HBox hbox = new HBox(false, 5);
         Label label = new Label(placeholder);
         Entry entry = new Entry();
+        entry.Name = placeholder; // Set the name to identify the entry later
         
         hbox.PackStart(label, false, false, 0);
         hbox.PackStart(entry, true, true, 0);
@@ -115,6 +121,58 @@ public class MainWindow : Window
         }
 
         fileChooser.Destroy();
+    }
+
+    private void OnSubmitButtonClicked(object sender, EventArgs e)
+    {
+        int N, TMOD, TEXC, FREX, FREY, NAX, NAY;
+        float B, A, W, Z, FI, S, CT, HI, EXC, DTX;
+        float[] ACX = new float[1000];
+        float[] ACY = new float[1000];
+
+        // Aquí se deben obtener los valores de los campos de entrada
+        // Por ejemplo:
+        TMOD = int.Parse(GetEntryText("Ingrese TMOD (Tipo de modelo):"));
+        TEXC = int.Parse(GetEntryText("Ingrese TEXC (Tipo de excentricidad):"));
+        // ... (obtener el resto de los valores de la misma manera)
+
+        // Llamar a la subrutina Fortran
+        LECDAT(out N, out TMOD, out TEXC, out B, out A, out W, out Z, out FI, out S, out CT, out HI, out EXC, out FREX, out FREY, out DTX, out NAX, out NAY, ACX, ACY);
+
+        Console.WriteLine("Datos enviados a Fortran");
+    }
+
+    private string GetEntryText(string placeholder)
+    {
+        foreach (Widget widget in ((VBox)((HBox)Child).Children[0]).Children)
+        {
+            if (widget is HBox hbox)
+            {
+                foreach (Widget innerWidget in hbox.Children)
+                {
+                    if (innerWidget is Entry entry && entry.Name == placeholder)
+                    {
+                        return entry.Text;
+                    }
+                }
+            }
+        }
+
+        foreach (Widget widget in ((VBox)((HBox)Child).Children[1]).Children)
+        {
+            if (widget is HBox hbox)
+            {
+                foreach (Widget innerWidget in hbox.Children)
+                {
+                    if (innerWidget is Entry entry && entry.Name == placeholder)
+                    {
+                        return entry.Text;
+                    }
+                }
+            }
+        }
+
+        return string.Empty;
     }
 
     public static void Main()

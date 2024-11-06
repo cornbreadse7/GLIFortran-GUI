@@ -21,3 +21,4 @@
 /Users/mimacbook/Documents/fortran/GLIFortran-GUI/obj/Debug/net8.0/GLIFortran-GUI.pdb
 /Users/mimacbook/Documents/fortran/GLIFortran-GUI/obj/Debug/net8.0/GLIFortran-GUI.genruntimeconfig.cache
 /Users/mimacbook/Documents/fortran/GLIFortran-GUI/obj/Debug/net8.0/ref/GLIFortran-GUI.dll
+/Users/mimacbook/Documents/fortran/GLIFortran-GUI/obj/Debug/net8.0/GLIFortran-GUI.sourcelink.json
